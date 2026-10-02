@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { FaEnvelope, FaPhone, FaMapMarkerAlt } from 'react-icons/fa';
+import { FaEnvelope, FaPhone, FaMapMarkerAlt, FaUser, FaGithub } from 'react-icons/fa';
 import { toast } from 'sonner';
 
 export default function ContactPage() {
@@ -26,16 +26,29 @@ export default function ContactPage() {
         </div>
 
         {/* Info Cards */}
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-5 mb-10">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 mb-10">
           {[
-            { icon: FaEnvelope, label: 'Email', value: 'support@lizzshop.com', color: 'text-blue-500' },
-            { icon: FaPhone, label: 'Phone', value: '+91 98263 60033', color: 'text-green-500' },
-            { icon: FaMapMarkerAlt, label: 'Address', value: 'Mumbai, Maharashtra, India', color: 'text-purple-500' },
-          ].map(({ icon: Icon, label, value, color }) => (
+            { icon: FaUser, label: 'Contact', value: 'Krishnendu Raut', href: undefined, color: 'text-blue-500' },
+            { icon: FaPhone, label: 'Phone', value: '+91 8597 583529', href: 'tel:+918597583529', color: 'text-green-500' },
+            { icon: FaEnvelope, label: 'Email', value: 'raut.hit2024@gmail.com', href: 'mailto:raut.hit2024@gmail.com', color: 'text-amber-500' },
+            { icon: FaMapMarkerAlt, label: 'Address', value: 'Deulbarh, Marishda, Purba Medinipur, 721427', href: undefined, color: 'text-purple-500' },
+            { icon: FaGithub, label: 'GitHub', value: 'LIZZ-SHOP repository', href: 'https://github.com/Saheb20004/LIZZ-SHOP', color: 'text-gray-500' },
+          ].map(({ icon: Icon, label, value, href, color }) => (
             <div key={label} className="bg-white dark:bg-gray-900 rounded-2xl p-6 shadow-sm flex flex-col items-center text-center">
               <Icon className={`${color} mb-3`} size={28} />
               <h3 className="font-bold text-gray-900 dark:text-white mb-1">{label}</h3>
-              <p className="text-sm text-gray-500 dark:text-gray-400">{value}</p>
+              {href ? (
+                <a
+                  href={href}
+                  target={label === 'GitHub' ? '_blank' : undefined}
+                  rel={label === 'GitHub' ? 'noopener noreferrer' : undefined}
+                  className="text-sm text-gray-500 dark:text-gray-400 hover:text-white underline-offset-4 hover:underline"
+                >
+                  {value}
+                </a>
+              ) : (
+                <p className="text-sm text-gray-500 dark:text-gray-400">{value}</p>
+              )}
             </div>
           ))}
         </div>

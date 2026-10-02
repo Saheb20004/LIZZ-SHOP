@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { FaFacebook, FaTwitter, FaInstagram, FaEnvelope, FaPhone, FaMapMarkerAlt } from 'react-icons/fa';
+import { FaFacebook, FaTwitter, FaInstagram, FaEnvelope, FaPhone, FaMapMarkerAlt, FaGithub } from 'react-icons/fa';
 
 export default function Footer() {
   return (
@@ -16,6 +16,7 @@ export default function Footer() {
             <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-blue-500 transition-colors"><FaFacebook size={20} /></a>
             <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-sky-400 transition-colors"><FaTwitter size={20} /></a>
             <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-pink-500 transition-colors"><FaInstagram size={20} /></a>
+            <a href="https://github.com/Saheb20004/LIZZ-SHOP" target="_blank" rel="noopener noreferrer" aria-label="LIZZ-SHOP on GitHub" className="text-gray-400 hover:text-white transition-colors"><FaGithub size={20} /></a>
           </div>
         </div>
 
@@ -61,20 +62,20 @@ export default function Footer() {
           <h4 className="text-xs font-bold uppercase tracking-widest mb-5 text-gray-300">Contact</h4>
           <ul className="space-y-4">
             <li>
-              <a href="mailto:support@lizzshop.com" className="flex items-start gap-3 text-sm text-gray-400 hover:text-white transition-colors">
+              <a href="mailto:raut.hit2024@gmail.com" className="flex items-start gap-3 text-sm text-gray-400 hover:text-white transition-colors">
                 <FaEnvelope className="mt-0.5 shrink-0" />
-                <span>support@lizzshop.com</span>
+                <span>raut.hit2024@gmail.com</span>
               </a>
             </li>
             <li>
-              <a href="tel:+919826360033" className="flex items-start gap-3 text-sm text-gray-400 hover:text-white transition-colors">
+              <a href="tel:+918597583529" className="flex items-start gap-3 text-sm text-gray-400 hover:text-white transition-colors">
                 <FaPhone className="mt-0.5 shrink-0" />
-                <span>+91 98263 60033</span>
+                <span>+91 8597 583529</span>
               </a>
             </li>
             <li className="flex items-start gap-3 text-sm text-gray-400">
               <FaMapMarkerAlt className="mt-0.5 shrink-0" />
-              <span>Mumbai, Maharashtra, India</span>
+              <span>Deulbarh, Marishda, Purba Medinipur, 721427</span>
             </li>
           </ul>
         </div>

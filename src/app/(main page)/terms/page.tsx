@@ -9,7 +9,7 @@ export default function TermsPage() {
     { title: '7. Limitation of Liability', content: 'Lizz Shop shall not be liable for any indirect, incidental, special, or consequential damages arising from your use of our services, including but not limited to loss of profits, data, or goodwill.' },
     { title: '8. Governing Law', content: 'These Terms shall be governed by and construed in accordance with the laws of India. Any disputes shall be subject to the exclusive jurisdiction of the courts in Mumbai, Maharashtra.' },
     { title: '9. Changes to Terms', content: 'We reserve the right to modify these Terms at any time. We will provide at least 30 days notice before new terms take effect. Continued use of our services after changes constitutes acceptance of the new terms.' },
-    { title: '10. Contact', content: 'For questions about these Terms, contact us at support@lizzshop.com or write to Lizz Shop, Mumbai, Maharashtra, India.' },
+    { title: '10. Contact', content: 'For questions about these Terms, email raut.hit2024@gmail.com or write to Krishnendu Raut, Deulbarh, Marishda, Purba Medinipur, 721427, India.' },
   ];
 
   return (

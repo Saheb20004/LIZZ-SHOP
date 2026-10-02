@@ -41,7 +41,7 @@ export default function ShippingPage() {
                 'Items can be returned within 7 days of delivery',
                 'Items must be unused, unwashed, and in original packaging with tags attached',
                 'Sale items and innerwear are not eligible for return',
-                'To initiate a return, contact us at support@lizzshop.com with your order ID',
+                'To initiate a return, contact us at raut.hit2024@gmail.com with your order ID',
                 'Refunds are processed within 5–7 business days after we receive the item',
               ],
             },

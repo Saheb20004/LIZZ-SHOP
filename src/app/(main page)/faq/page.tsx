@@ -9,7 +9,7 @@ const faqs = [
   { q: 'What is your return policy?', a: 'We accept returns of unused items in original condition within 7 days of delivery. Initiate a return from your Orders page or contact our support team.' },
   { q: 'What payment methods do you accept?', a: 'We accept all major credit/debit cards (Visa, Mastercard, Amex), UPI, Net Banking, and Wallets via Stripe\'s secure payment gateway.' },
   { q: 'Are my payment details safe?', a: 'Absolutely. All payments are processed through Stripe, which is PCI DSS Level 1 certified — the highest level of payment security.' },
-  { q: 'How do I contact customer support?', a: 'You can reach us via the Contact page, email us at support@lizzshop.com, or call +91 98263 60033. We respond within 24 hours.' },
+  { q: 'How do I contact customer support?', a: 'You can reach us via the Contact page, email raut.hit2024@gmail.com, or call +91 8597 583529. We respond within 24 hours.' },
   { q: 'Can I change or cancel my order?', a: 'Orders can be modified or cancelled within 1 hour of placement. After that, the order enters processing and cannot be changed.' },
 ];
 

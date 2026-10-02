@@ -5,10 +5,10 @@ export default function PrivacyPage() {
     { title: '3. Payment Security', content: 'All payments are processed through Stripe, a PCI DSS Level 1 certified payment processor. We do not store your card details on our servers. Your payment information is encrypted and handled securely by Stripe.' },
     { title: '4. Cookies', content: 'We use cookies to maintain your session, remember your cart, and analyze website traffic. You can disable cookies in your browser settings, but some features of the website may not function properly.' },
     { title: '5. Data Sharing', content: 'We share your data only with trusted service providers necessary to operate our business — including Stripe (payments), Clerk (authentication), MongoDB (database), and Resend (email). All partners are bound by strict data protection agreements.' },
-    { title: '6. Your Rights', content: 'You have the right to access, correct, or delete your personal data at any time. To exercise these rights, contact us at support@lizzshop.com. We will respond within 30 days.' },
+    { title: '6. Your Rights', content: 'You have the right to access, correct, or delete your personal data at any time. To exercise these rights, contact us at raut.hit2024@gmail.com. We will respond within 30 days.' },
     { title: '7. Data Retention', content: 'We retain your personal data for as long as your account is active or as needed to provide services. Order data is retained for 7 years for legal and accounting purposes.' },
     { title: '8. Changes to This Policy', content: 'We may update this Privacy Policy from time to time. We will notify you of significant changes via email or a prominent notice on our website. Continued use of our services after changes constitutes acceptance.' },
-    { title: '9. Contact Us', content: 'For any privacy-related questions or concerns, contact us at: support@lizzshop.com or write to us at Lizz Shop, Mumbai, Maharashtra, India.' },
+    { title: '9. Contact Us', content: 'For any privacy-related questions or concerns, email raut.hit2024@gmail.com or write to Krishnendu Raut, Deulbarh, Marishda, Purba Medinipur, 721427, India.' },
   ];
 
   return (

@@ -26,6 +26,7 @@ export default function Navbar() {
   const { user, isSignedIn } = useUser();
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [shopOpen, setShopOpen] = useState(false);
   const [userMenuOpen, setUserMenuOpen] = useState(false);
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 10);
@@ -35,7 +36,10 @@ export default function Navbar() {
 
   // Close user menu on outside click
   useEffect(() => {
-    const handler = () => setUserMenuOpen(false);
+    const handler = () => {
+      setUserMenuOpen(false);
+      setShopOpen(false);
+    };
     document.addEventListener('click', handler);
     return () => document.removeEventListener('click', handler);
   }, []);
@@ -53,11 +57,32 @@ export default function Navbar() {
 
         {/* Desktop Nav */}
         <nav className="hidden lg:flex items-center gap-4">
-          {navLinks.map((l) => (
-            <Link key={l.label} href={l.href} className="text-xs font-bold text-white/80 hover:text-white transition-colors tracking-widest">
-              {l.label}
-            </Link>
-          ))}
+          <div className="relative" onClick={(event) => event.stopPropagation()}>
+            <button
+              type="button"
+              onClick={() => setShopOpen(!shopOpen)}
+              aria-expanded={shopOpen}
+              aria-haspopup="menu"
+              className="flex items-center gap-1 text-xs font-bold text-white/80 hover:text-white transition-colors tracking-widest"
+            >
+              SHOP <FaChevronDown size={9} className={`transition-transform ${shopOpen ? 'rotate-180' : ''}`} />
+            </button>
+            {shopOpen && (
+              <div role="menu" className="absolute left-0 top-full mt-4 w-56 rounded-xl border border-white/10 bg-gray-950 p-2 shadow-2xl">
+                {navLinks.map((link) => (
+                  <Link
+                    key={link.label}
+                    href={link.href}
+                    role="menuitem"
+                    onClick={() => setShopOpen(false)}
+                    className="block rounded-lg px-4 py-3 text-sm font-semibold text-white/80 hover:bg-white/10 hover:text-white"
+                  >
+                    {link.label === 'MEN' ? "Men's Collection" : link.label === 'WOMEN' ? "Women's Collection" : 'Accessories'}
+                  </Link>
+                ))}
+              </div>
+            )}
+          </div>
           {infoLinks.map((l) => (
             <Link key={l.label} href={l.href} className="text-xs font-bold text-white/80 hover:text-white transition-colors tracking-widest">
               {l.label}
@@ -154,11 +179,14 @@ export default function Navbar() {
           <div className="pt-4">
             <SearchBar />
           </div>
-          {navLinks.map((l) => (
-            <Link key={l.label} href={l.href} onClick={() => setMobileOpen(false)} className="text-sm font-bold tracking-widest hover:text-gray-300">
-              {l.label}
-            </Link>
-          ))}
+          <div className="flex flex-col gap-3 border-b border-white/10 pb-4">
+            <p className="text-xs font-bold tracking-[0.2em] text-gray-400">SHOP</p>
+            {navLinks.map((l) => (
+              <Link key={l.label} href={l.href} onClick={() => setMobileOpen(false)} className="pl-3 text-sm font-bold tracking-widest hover:text-gray-300">
+                {l.label === 'MEN' ? "Men's Collection" : l.label === 'WOMEN' ? "Women's Collection" : 'Accessories'}
+              </Link>
+            ))}
+          </div>
           {infoLinks.map((l) => (
             <Link key={l.label} href={l.href} onClick={() => setMobileOpen(false)} className="text-sm font-bold tracking-widest hover:text-gray-300">
               {l.label}
