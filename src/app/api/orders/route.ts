@@ -45,7 +45,7 @@ export async function POST(req: NextRequest) {
     if (email) {
       // In dev/test: Resend only allows sending to your own verified email
       // unless you have a verified domain. Use onboarding@resend.dev as from.
-      await sendOrderConfirmationEmail(orderObj, email);
+    await sendOrderConfirmationEmail(orderObj as any, email);
     }
   } catch (emailErr) {
     console.error('Email send error:', emailErr);

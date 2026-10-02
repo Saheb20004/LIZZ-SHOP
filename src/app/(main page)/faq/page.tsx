@@ -1,89 +1,51 @@
-// src/app/faq/page.tsx
 'use client';
 
 import { useState } from 'react';
+import { FaChevronDown } from 'react-icons/fa';
 
-const faqData = [
-  {
-    question: "What is your shipping policy?",
-    answer: "We offer standard and express shipping options. All orders are processed within 1-2 business days. You will receive a tracking number as soon as your order ships."
-  },
-  {
-    question: "How can I track my order?",
-    answer: "Once your order is shipped, we will send you a confirmation email with a tracking number. You can use this number on our website's tracking page or the carrier's website to check the status of your delivery."
-  },
-  {
-    question: "What is your return policy?",
-    answer: "We accept returns of unused items in their original condition within 30 days of delivery. Please visit our Shipping & Returns page for detailed instructions on how to initiate a return."
-  },
-  {
-    question: "What payment methods do you accept?",
-    answer: "We accept all major credit cards, including Visa, MasterCard, American Express, and Discover. We also accept payments through PayPal."
-  },
-  {
-    question: "How do I contact customer support?",
-    answer: "You can reach our customer support team via the Contact Us page on our website, or by sending an email to your_email@example.com."
-  }
+const faqs = [
+  { q: 'What is your shipping policy?', a: 'We offer free shipping on orders over ₹999. Standard delivery takes 3-5 business days. Express delivery (1-2 days) is available at checkout.' },
+  { q: 'How can I track my order?', a: 'Once your order ships, you\'ll receive an email with a tracking number. You can also view your order status in the My Orders section after logging in.' },
+  { q: 'What is your return policy?', a: 'We accept returns of unused items in original condition within 7 days of delivery. Initiate a return from your Orders page or contact our support team.' },
+  { q: 'What payment methods do you accept?', a: 'We accept all major credit/debit cards (Visa, Mastercard, Amex), UPI, Net Banking, and Wallets via Stripe\'s secure payment gateway.' },
+  { q: 'Are my payment details safe?', a: 'Absolutely. All payments are processed through Stripe, which is PCI DSS Level 1 certified — the highest level of payment security.' },
+  { q: 'How do I contact customer support?', a: 'You can reach us via the Contact page, email us at support@lizzshop.com, or call +91 98263 60033. We respond within 24 hours.' },
+  { q: 'Can I change or cancel my order?', a: 'Orders can be modified or cancelled within 1 hour of placement. After that, the order enters processing and cannot be changed.' },
 ];
 
-const FAQItem = ({ question, answer }: { question: string, answer: string }) => {
-  const [isOpen, setIsOpen] = useState(false);
-
+function FAQItem({ q, a }: { q: string; a: string }) {
+  const [open, setOpen] = useState(false);
   return (
-    <div className="border-b border-gray-200 py-4">
+    <div className="border-b border-gray-100 dark:border-gray-800 last:border-0">
       <button
-        className="flex justify-between items-center w-full text-left"
-        onClick={() => setIsOpen(!isOpen)}
+        onClick={() => setOpen(!open)}
+        className="w-full flex items-center justify-between py-5 text-left gap-4"
       >
-        <span className="text-lg font-semibold text-gray-800">
-          {question}
-        </span>
-        <svg
-          className={`w-6 h-6 transform transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`}
-          fill="none"
-          stroke="currentColor"
-          viewBox="0 0 24 24"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth="2"
-            d="M19 9l-7 7-7-7"
-          ></path>
-        </svg>
+        <span className="font-semibold text-gray-900 dark:text-white text-sm sm:text-base">{q}</span>
+        <FaChevronDown
+          size={14}
+          className={`text-gray-400 shrink-0 transition-transform duration-300 ${open ? 'rotate-180' : ''}`}
+        />
       </button>
-      {isOpen && (
-        <p className="mt-4 text-gray-600 leading-relaxed">
-          {answer}
-        </p>
-      )}
+      <div className={`overflow-hidden transition-all duration-300 ${open ? 'max-h-40 pb-5' : 'max-h-0'}`}>
+        <p className="text-sm sm:text-base text-gray-600 dark:text-gray-400 leading-relaxed">{a}</p>
+      </div>
     </div>
   );
-};
+}
 
 export default function FAQPage() {
   return (
-    <div className="bg-gray-100 min-h-screen">
-
-      <main className="container mx-auto px-4 py-24 md:py-32">
-        <div className="max-w-4xl mx-auto">
-          <h1 className="text-4xl md:text-5xl font-extrabold text-gray-900 mb-8 text-center">
-            Frequently Asked Questions
-          </h1>
-
-          <div className="bg-white p-6 rounded-lg shadow-md">
-            {faqData.map((item, index) => (
-              <FAQItem
-                key={index}
-                question={item.question}
-                answer={item.answer}
-              />
-            ))}
-          </div>
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-950 pt-20">
+      <div className="container mx-auto px-4 lg:px-10 py-10 max-w-3xl">
+        <div className="text-center mb-12">
+          <p className="text-xs uppercase tracking-[0.3em] text-gray-500 dark:text-gray-400 mb-3">Help Center</p>
+          <h1 className="text-3xl sm:text-4xl font-extrabold text-gray-900 dark:text-white">Frequently Asked Questions</h1>
         </div>
-      </main>
-
+        <div className="bg-white dark:bg-gray-900 rounded-2xl shadow-sm px-6 sm:px-10">
+          {faqs.map((item, i) => <FAQItem key={i} q={item.q} a={item.a} />)}
+        </div>
+      </div>
     </div>
   );
 }
