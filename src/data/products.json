@@ -1,0 +1,92 @@
+[
+  {
+    "id": 1,
+    "name": "Stylish T-shirt",
+    "description": "A comfortable and stylish t-shirt made from 100% organic cotton.",
+    "originalPrice": 1000,
+    "finalPrice":599,
+    "rating": 1.5,
+    "image": "/img1.jpg"
+  },
+  {
+    "id": 2,
+    "name": "Classic Jeans",
+    "description": "Durable and classic fit jeans, perfect for everyday wear.",
+    "originalPrice": 1499,
+    "finalPrice":599,
+    "rating": 4.5,
+    "image": "/img2.jpg"
+  },
+  {
+    "id": 3,
+    "name": "Leather Jacket",
+    "description": "A high-quality leather jacket that combines style with comfort.",
+    "originalPrice": 1999,
+    "finalPrice":599,
+    "rating": 3.9,
+    "image": "/img3.jpg"
+  },
+  {
+    "id": 4,
+    "name": "T-shirt Standing",
+    "description": "A high-quality leather jacket that combines style with comfort.",
+    "originalPrice": 999,
+    "finalPrice":599,
+    "rating": 2.9,
+    "image": "/img4.jpg"
+  },
+  {
+    "id": 5,
+    "name": "Leather Jacket",
+    "description": "A high-quality leather jacket that combines style with comfort.",
+    "originalPrice": 999,
+    "finalPrice":599,
+    "rating": 4.5,
+    "image": "/img5.jpg"
+  },
+  {
+    "id": 6,
+    "name": "Leather Jacket",
+    "description": "A high-quality leather jacket that combines style with comfort.",
+    "originalPrice": 999,
+    "finalPrice":599,
+    "rating": 4.5,
+    "image": "/img6.jpg"
+  },
+  {
+    "id": 7,
+    "name": "Leather Jacket",
+    "description": "A high-quality leather jacket that combines style with comfort.",
+    "originalPrice": 1999,
+    "finalPrice":599,
+    "rating": 4.5,
+    "image": "/img7.jpg"
+  },
+  {
+    "id": 8,
+    "name": "Leather Jacket",
+    "description": "A high-quality leather jacket that combines style with comfort.",
+    "originalPrice": 999,
+    "finalPrice":599,
+    "rating": 4.5,
+    "image": "/img8.jpg"
+  },
+  {
+    "id": 9,
+    "name": "Leather Jacket",
+    "description": "A high-quality leather jacket that combines style with comfort.",
+    "originalPrice": 1499,
+    "finalPrice":599,
+    "rating": 4.5,
+    "image": "/img9.jpg"
+  },
+  {
+    "id": 10,
+    "name": "Leather Jacket",
+    "description": "A high-quality leather jacket that combines style with comfort.",
+    "originalPrice": 999,
+    "finalPrice":599,
+    "rating": 4.5,
+    "image": "/img10.jpg"
+  }
+]
