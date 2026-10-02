@@ -2,28 +2,31 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
-import { createClient } from '@/lib/supabase/client';
+import { useSignIn } from '@clerk/nextjs';
 import { FaEnvelope } from 'react-icons/fa';
 import { toast } from 'sonner';
 
 export default function ForgotPasswordPage() {
-  const supabase = createClient();
+  const { isLoaded, signIn } = useSignIn();
   const [email, setEmail] = useState('');
   const [loading, setLoading] = useState(false);
   const [sent, setSent] = useState(false);
 
   const handleReset = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!isLoaded) return;
     setLoading(true);
-    const { error } = await supabase.auth.resetPasswordForEmail(email, {
-      redirectTo: `${process.env.NEXT_PUBLIC_APP_URL}/update-password`,
-    });
-    setLoading(false);
-    if (error) {
-      toast.error(error.message);
-    } else {
+    try {
+      await signIn.create({ identifier: email });
+      await signIn.prepareFirstFactor({ strategy: 'reset_password_email_code' });
       setSent(true);
       toast.success('Reset link sent! Check your email.');
+    } catch {
+      // Avoid exposing whether an email address is registered.
+      setSent(true);
+      toast.success('If an account exists for that address, reset instructions are on the way.');
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -59,7 +62,7 @@ export default function ForgotPasswordPage() {
               </div>
               <button
                 type="submit"
-                disabled={loading}
+                disabled={loading || !isLoaded}
                 className="w-full bg-black dark:bg-white text-white dark:text-black py-3 rounded-xl font-semibold hover:bg-gray-800 dark:hover:bg-gray-200 transition-colors disabled:opacity-50"
               >
                 {loading ? 'Sending...' : 'Send Reset Link'}
