@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -8,18 +8,7 @@ import { FaHeart, FaRegHeart, FaStar, FaShoppingCart, FaShieldAlt, FaTruck, FaUn
 import { useCart } from '@/context/CartContext';
 import { useWishlist } from '@/context/WishlistContext';
 import { Product } from '@/types';
-import productsJson from '@/data/products.json';
 import { toast } from 'sonner';
-
-const allProducts: Product[] = productsJson.map((p) => ({
-  ...p,
-  id: String(p.id),
-  price: p.finalPrice,
-  original_price: p.originalPrice,
-  category: 'general',
-  stock: 50,
-  review_count: 0,
-}));
 
 export default function ProductPage() {
   const { id } = useParams<{ id: string }>();
@@ -27,8 +16,18 @@ export default function ProductPage() {
   const { addToWishlist, removeFromWishlist, isItemInWishlist } = useWishlist();
   const [selectedImage, setSelectedImage] = useState(0);
   const [quantity, setQuantity] = useState(1);
+  const [product, setProduct] = useState<Product | null>(null);
+  const [loaded, setLoaded] = useState(false);
 
-  const product = allProducts.find((p) => p.id === id);
+  useEffect(() => {
+    fetch(`/api/products/${encodeURIComponent(id)}`)
+      .then((response) => response.ok ? response.json() : null)
+      .then(setProduct)
+      .catch(() => setProduct(null))
+      .finally(() => setLoaded(true));
+  }, [id]);
+
+  if (!loaded) return <div className="min-h-screen bg-gray-50 dark:bg-gray-950" />;
 
   if (!product) {
     return (

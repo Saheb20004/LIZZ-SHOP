@@ -1,23 +1,16 @@
 'use client';
 
-import { Suspense } from 'react';
+import { Suspense, useEffect, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
 import ProductCard from '@/components/ProductCard';
-import productsJson from '@/data/products.json';
 import { Product } from '@/types';
-
-const allProducts: Product[] = productsJson.map((p) => ({
-  ...p,
-  id: String(p.id),
-  price: p.finalPrice,
-  original_price: p.originalPrice,
-  category: 'general',
-  stock: 50,
-  review_count: 0,
-}));
 
 function SearchContent() {
   const searchParams = useSearchParams();
+  const [allProducts, setAllProducts] = useState<Product[]>([]);
+  useEffect(() => {
+    fetch('/api/products').then((response) => response.ok ? response.json() : []).then(setAllProducts).catch(() => setAllProducts([]));
+  }, []);
   const query = searchParams.get('q') || '';
 
   const results = allProducts.filter((p) =>

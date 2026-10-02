@@ -1,6 +1,7 @@
 import { Schema, model, models } from 'mongoose';
 
 const ProductSchema = new Schema({
+  legacy_id: { type: String, unique: true, sparse: true },
   name: { type: String, required: true },
   description: String,
   price: { type: Number, required: true },

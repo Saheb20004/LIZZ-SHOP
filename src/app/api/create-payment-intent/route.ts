@@ -3,7 +3,7 @@ import { auth, currentUser } from '@clerk/nextjs/server';
 import { stripe } from '@/lib/stripe';
 import { connectDB } from '@/lib/mongodb';
 import { Order } from '@/models/Order';
-import catalog from '@/data/products.json';
+import { Product } from '@/models/Product';
 
 export const runtime = 'nodejs';
 
@@ -30,7 +30,10 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'Invalid cart or shipping address' }, { status: 400 });
     }
 
-    const productById = new Map(catalog.map((product) => [String(product.id), product]));
+    await connectDB();
+    const productIds = cartItems.map((entry) => entry?.id).filter((id): id is string => typeof id === 'string');
+    const catalog = await Product.find({ legacy_id: { $in: productIds } }).lean();
+    const productById = new Map(catalog.map((product) => [String(product.legacy_id ?? product._id), product]));
     const items = [];
     for (const entry of cartItems) {
       if (!entry || typeof entry.id !== 'string' || !Number.isInteger(entry.quantity) || entry.quantity < 1 || entry.quantity > MAX_QUANTITY) {
@@ -43,7 +46,7 @@ export async function POST(req: NextRequest) {
         product_name: product.name,
         product_image: product.image,
         quantity: entry.quantity,
-        price: product.finalPrice,
+        price: product.price,
       });
     }
 
@@ -55,7 +58,6 @@ export async function POST(req: NextRequest) {
     const email = user?.emailAddresses.find((entry) => entry.id === user.primaryEmailAddressId)?.emailAddress;
     if (!email) return NextResponse.json({ error: 'Your account needs a verified email to place an order' }, { status: 400 });
 
-    await connectDB();
     const order = await Order.create({
       user_id: userId,
       status: 'pending',

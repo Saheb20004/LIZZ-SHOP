@@ -20,7 +20,7 @@ A responsive fashion storefront built with Next.js App Router, Clerk authenticat
 6. In Resend, create an API key and verify the sender domain/address used by `RESEND_FROM_EMAIL`. Resend's test sender is for limited testing and is not suitable for production orders.
 7. Start the app with `npm run dev` and open <http://localhost:3000>.
 
-Product data currently comes from `src/data/products.json`. Checkout accepts product IDs and quantities from the browser, then looks up prices on the server before creating the pending MongoDB order and Stripe Checkout session. Stripe's signed webhook changes the order to `processing` after a paid session. The browser return URL alone never marks an order as paid.
+Products and orders are stored in MongoDB. Import the starter catalog with `npm run seed:products` after setting `MONGODB_URI`; the JSON file is only the seed source. The storefront reads products through `/api/products`, and checkout reloads current prices from MongoDB before creating the pending order and Stripe Checkout session. Stripe's signed webhook changes the order to `processing` after a paid session. The browser return URL alone never marks an order as paid.
 
 ## Production deployment
 
