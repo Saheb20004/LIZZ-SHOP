@@ -1,5 +1,6 @@
 'use client';
 
+import { Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 import ProductCard from '@/components/ProductCard';
 import productsJson from '@/data/products.json';
@@ -15,7 +16,7 @@ const allProducts: Product[] = productsJson.map((p) => ({
   review_count: 0,
 }));
 
-export default function SearchPage() {
+function SearchContent() {
   const searchParams = useSearchParams();
   const query = searchParams.get('q') || '';
 
@@ -43,5 +44,13 @@ export default function SearchPage() {
         </div>
       )}
     </div>
+  );
+}
+
+export default function SearchPage() {
+  return (
+    <Suspense fallback={<div className="min-h-screen bg-gray-50 dark:bg-gray-950" />}>
+      <SearchContent />
+    </Suspense>
   );
 }
