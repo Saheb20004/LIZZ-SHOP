@@ -3,9 +3,8 @@
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { useTheme } from 'next-themes';
 import { useUser, SignOutButton } from '@clerk/nextjs';
-import { FaRegHeart, FaShoppingCart, FaBars, FaTimes, FaSun, FaMoon, FaSignOutAlt, FaBoxOpen, FaUser, FaChevronDown } from 'react-icons/fa';
+import { FaRegHeart, FaShoppingCart, FaBars, FaTimes, FaSignOutAlt, FaBoxOpen, FaUser, FaChevronDown } from 'react-icons/fa';
 import { useWishlist } from '@/context/WishlistContext';
 import { useCart } from '@/context/CartContext';
 import SearchBar from '@/components/SearchBar';
@@ -13,22 +12,21 @@ import SearchBar from '@/components/SearchBar';
 const navLinks = [
   { label: 'MEN', href: '/content?category=men' },
   { label: 'WOMEN', href: '/content?category=women' },
-  { label: 'PLUS SIZE', href: '/content?category=plus-size' },
   { label: 'ACCESSORIES', href: '/content?category=accessories' },
+];
+
+const infoLinks = [
+  { label: 'FAQ', href: '/faq' },
+  { label: 'CONTACT', href: '/contact' },
 ];
 
 export default function Navbar() {
   const { wishlistItems } = useWishlist();
   const { cartCount } = useCart();
   const { user, isSignedIn } = useUser();
-  const { setTheme, resolvedTheme } = useTheme();
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [userMenuOpen, setUserMenuOpen] = useState(false);
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => { setMounted(true); }, []);
-
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 10);
     window.addEventListener('scroll', onScroll);
@@ -42,11 +40,9 @@ export default function Navbar() {
     return () => document.removeEventListener('click', handler);
   }, []);
 
-  const isDark = mounted && resolvedTheme === 'dark';
-
   return (
     <header className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${
-      scrolled ? 'bg-white dark:bg-gray-950 shadow-md' : 'bg-black/30 backdrop-blur-md'
+      scrolled ? 'bg-gray-950 shadow-md' : 'bg-black/70 backdrop-blur-md'
     }`}>
       <div className="px-4 sm:px-6 lg:px-10 py-3 flex items-center justify-between gap-3">
 
@@ -56,8 +52,13 @@ export default function Navbar() {
         </Link>
 
         {/* Desktop Nav */}
-        <nav className="hidden lg:flex items-center gap-5">
+        <nav className="hidden lg:flex items-center gap-4">
           {navLinks.map((l) => (
+            <Link key={l.label} href={l.href} className="text-xs font-bold text-white/80 hover:text-white transition-colors tracking-widest">
+              {l.label}
+            </Link>
+          ))}
+          {infoLinks.map((l) => (
             <Link key={l.label} href={l.href} className="text-xs font-bold text-white/80 hover:text-white transition-colors tracking-widest">
               {l.label}
             </Link>
@@ -71,17 +72,6 @@ export default function Navbar() {
 
         {/* Actions */}
         <div className="flex items-center gap-2 sm:gap-3 text-white">
-
-          {/* Theme Toggle */}
-          {mounted && (
-            <button
-              onClick={() => setTheme(isDark ? 'light' : 'dark')}
-              className="p-2 rounded-full hover:bg-white/20 transition-colors"
-              aria-label="Toggle theme"
-            >
-              {isDark ? <FaSun size={17} /> : <FaMoon size={17} />}
-            </button>
-          )}
 
           {/* Wishlist */}
           <Link href="/wishlist" className="relative p-2 hover:text-gray-300 transition-colors">
@@ -165,6 +155,11 @@ export default function Navbar() {
             <SearchBar />
           </div>
           {navLinks.map((l) => (
+            <Link key={l.label} href={l.href} onClick={() => setMobileOpen(false)} className="text-sm font-bold tracking-widest hover:text-gray-300">
+              {l.label}
+            </Link>
+          ))}
+          {infoLinks.map((l) => (
             <Link key={l.label} href={l.href} onClick={() => setMobileOpen(false)} className="text-sm font-bold tracking-widest hover:text-gray-300">
               {l.label}
             </Link>

@@ -2,7 +2,6 @@ import type { Metadata } from 'next';
 import { Geist, Geist_Mono } from 'next/font/google';
 import './globals.css';
 import { ClerkProvider } from '@clerk/nextjs';
-import { ThemeProvider } from '@/context/ThemeContext';
 import { CartProvider } from '@/context/CartContext';
 import { WishlistProvider } from '@/context/WishlistContext';
 import Navbar from '@/components/layout/Navbar';
@@ -20,18 +19,16 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <ClerkProvider>
-      <html lang="en" suppressHydrationWarning>
+      <html lang="en" className="dark" suppressHydrationWarning>
         <body className={`${geistSans.variable} ${geistMono.variable} antialiased bg-white dark:bg-gray-950 text-gray-900 dark:text-white`}>
-          <ThemeProvider>
-            <WishlistProvider>
-              <CartProvider>
-                <Navbar />
-                {children}
-                <Footer />
-                <Toaster position="bottom-right" richColors closeButton />
-              </CartProvider>
-            </WishlistProvider>
-          </ThemeProvider>
+          <WishlistProvider>
+            <CartProvider>
+              <Navbar />
+              {children}
+              <Footer />
+              <Toaster position="bottom-right" richColors closeButton />
+            </CartProvider>
+          </WishlistProvider>
         </body>
       </html>
     </ClerkProvider>

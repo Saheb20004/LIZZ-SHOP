@@ -26,6 +26,7 @@ export default function Footer() {
             {[
               { label: "Men's Collection", href: '/content?category=men' },
               { label: "Women's Collection", href: '/content?category=women' },
+              { label: 'Accessories', href: '/content?category=accessories' },
               { label: 'New Arrivals', href: '/content' },
               { label: 'About Us', href: '/about' },
               { label: 'Contact', href: '/contact' },
