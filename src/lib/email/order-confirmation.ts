@@ -3,14 +3,26 @@ import { Order } from '@/types';
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
+function escapeHtml(value: unknown): string {
+  return String(value ?? '').replace(/[&<>"']/g, (character) => ({
+    '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;',
+  })[character]!);
+}
+
+function imageUrl(src: string): string {
+  if (/^https:\/\//i.test(src)) return escapeHtml(src);
+  const baseUrl = process.env.NEXT_PUBLIC_APP_URL;
+  return escapeHtml(baseUrl ? new URL(src, baseUrl).toString() : '');
+}
+
 export async function sendOrderConfirmationEmail(order: Order, email: string) {
   const itemsHtml = (order.items || [])
     .map(
       (item) => `
       <tr>
         <td style="padding:12px;border-bottom:1px solid #f0f0f0;">
-          <img src="${item.product_image}" width="60" style="border-radius:8px;vertical-align:middle;margin-right:12px;" />
-          ${item.product_name}
+          <img src="${imageUrl(item.product_image)}" width="60" style="border-radius:8px;vertical-align:middle;margin-right:12px;" />
+          ${escapeHtml(item.product_name)}
         </td>
         <td style="padding:12px;border-bottom:1px solid #f0f0f0;text-align:center;">${item.quantity}</td>
         <td style="padding:12px;border-bottom:1px solid #f0f0f0;text-align:right;">₹${(item.price * item.quantity).toFixed(2)}</td>
@@ -41,7 +53,7 @@ export async function sendOrderConfirmationEmail(order: Order, email: string) {
             <table width="100%" cellpadding="0" cellspacing="0" style="background:#f9f9f9;border-radius:8px;padding:16px;margin-bottom:24px;">
               <tr>
                 <td style="color:#888;font-size:13px;">Order ID</td>
-                <td style="color:#111;font-weight:bold;text-align:right;font-size:13px;">#${order.id.slice(0, 8).toUpperCase()}</td>
+                <td style="color:#111;font-weight:bold;text-align:right;font-size:13px;">#${escapeHtml(order.id.slice(0, 8).toUpperCase())}</td>
               </tr>
               <tr>
                 <td style="color:#888;font-size:13px;padding-top:8px;">Date</td>
@@ -90,10 +102,10 @@ export async function sendOrderConfirmationEmail(order: Order, email: string) {
             <div style="background:#f9f9f9;border-radius:8px;padding:16px;margin-top:24px;">
               <h3 style="color:#111;margin:0 0 8px;font-size:14px;">Shipping To</h3>
               <p style="color:#555;margin:0;font-size:14px;line-height:1.6;">
-                ${order.shipping_address.full_name}<br/>
-                ${order.shipping_address.address}<br/>
-                ${order.shipping_address.city}, ${order.shipping_address.state} - ${order.shipping_address.zip}<br/>
-                ${order.shipping_address.country}
+                ${escapeHtml(order.shipping_address.full_name)}<br/>
+                ${escapeHtml(order.shipping_address.address)}<br/>
+                ${escapeHtml(order.shipping_address.city)}, ${escapeHtml(order.shipping_address.state)} - ${escapeHtml(order.shipping_address.zip)}<br/>
+                ${escapeHtml(order.shipping_address.country)}
               </p>
             </div>
 
@@ -115,7 +127,7 @@ export async function sendOrderConfirmationEmail(order: Order, email: string) {
   </html>`;
 
   return resend.emails.send({
-    from: process.env.RESEND_FROM_EMAIL || 'onboarding@resend.dev',
+    from: process.env.RESEND_FROM_EMAIL!,
     to: email,
     subject: `Order Confirmed #${order.id.slice(0, 8).toUpperCase()} — Lizz Shop`,
     html,

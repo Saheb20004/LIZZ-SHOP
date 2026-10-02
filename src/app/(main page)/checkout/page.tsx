@@ -16,7 +16,7 @@ const INITIAL_ADDRESS: ShippingAddress = {
 export default function CheckoutPage() {
   const router = useRouter();
   const { isSignedIn } = useUser();
-  const { cartItems, cartTotal, clearCart } = useCart();
+  const { cartItems, cartTotal } = useCart();
   const [shippingAddress, setShippingAddress] = useState<ShippingAddress>(INITIAL_ADDRESS);
   const [loading, setLoading] = useState(false);
 
@@ -35,39 +35,20 @@ export default function CheckoutPage() {
 
     setLoading(true);
     try {
-      // 1. Save order to MongoDB first
-      const orderRes = await fetch('/api/orders', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          subtotal: cartTotal,
-          shipping_cost: shipping,
-          tax,
-          total,
-          shipping_address: shippingAddress,
-          stripe_payment_intent: 'pending',
-          items: cartItems.map((item) => ({
-            product_id: item.id,
-            product_name: item.name,
-            product_image: item.image,
-            quantity: item.quantity,
-            price: item.price,
-          })),
-        }),
-      });
-      if (!orderRes.ok) throw new Error('Failed to create order');
-
-      // 2. Create Stripe Checkout Session
+      // The server looks up product prices, saves the pending order and creates its Stripe session.
       const sessionRes = await fetch('/api/create-payment-intent', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ cartItems, shippingAddress, subtotal: cartTotal, shipping, tax, total }),
+        body: JSON.stringify({
+          cartItems: cartItems.map(({ id, quantity }) => ({ id, quantity })),
+          shippingAddress,
+        }),
       });
       const { url, error } = await sessionRes.json();
+      if (!sessionRes.ok) throw new Error(error || 'Unable to start checkout');
       if (error) throw new Error(error);
 
-      // 3. Clear cart and redirect to Stripe
-      clearCart();
+      if (!url) throw new Error('Stripe did not return a checkout URL');
       window.location.href = url;
     } catch (err: unknown) {
       toast.error(err instanceof Error ? err.message : 'Something went wrong. Please try again.');
