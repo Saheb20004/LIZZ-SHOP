@@ -21,7 +21,7 @@ export default function Navbar() {
   const { wishlistItems } = useWishlist();
   const { cartCount } = useCart();
   const { user, isSignedIn } = useUser();
-  const { theme, setTheme, resolvedTheme } = useTheme();
+  const { setTheme, resolvedTheme } = useTheme();
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [userMenuOpen, setUserMenuOpen] = useState(false);

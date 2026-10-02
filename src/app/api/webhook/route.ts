@@ -35,7 +35,12 @@ export async function POST(req: NextRequest) {
     if (order && session.customer_details?.email) {
       try {
         await sendOrderConfirmationEmail(
-          { ...order, id: order._id.toString(), created_at: order.createdAt },
+          {
+            ...order,
+            id: order._id.toString(),
+            created_at: order.createdAt?.toISOString() ?? new Date().toISOString(),
+            stripe_payment_intent: String(session.payment_intent),
+          },
           session.customer_details.email
         );
       } catch (error) {

@@ -1,4 +1,34 @@
-import { Schema, model, models } from 'mongoose';
+import { Schema, model, models, type Model, type Types } from 'mongoose';
+
+interface OrderItemRecord {
+  _id?: Types.ObjectId;
+  product_id?: string;
+  product_name: string;
+  product_image: string;
+  quantity: number;
+  price: number;
+}
+
+interface OrderRecord {
+  user_id: string;
+  status: 'pending' | 'processing' | 'shipped' | 'delivered' | 'cancelled';
+  subtotal: number;
+  shipping_cost: number;
+  tax: number;
+  total: number;
+  shipping_address: {
+    full_name: string;
+    address: string;
+    city: string;
+    state: string;
+    zip: string;
+    country: string;
+    phone: string;
+  };
+  stripe_payment_intent?: string;
+  items: OrderItemRecord[];
+  createdAt?: Date;
+}
 
 const OrderItemSchema = new Schema({
   product_id: String,
@@ -18,7 +48,7 @@ const ShippingAddressSchema = new Schema({
   phone: String,
 }, { _id: false });
 
-const OrderSchema = new Schema({
+const OrderSchema = new Schema<OrderRecord>({
   user_id: { type: String, required: true },
   status: {
     type: String,
@@ -34,4 +64,5 @@ const OrderSchema = new Schema({
   items: [OrderItemSchema],
 }, { timestamps: true });
 
-export const Order = models.Order || model('Order', OrderSchema);
+export const Order: Model<OrderRecord> =
+  (models.Order as Model<OrderRecord> | undefined) ?? model<OrderRecord>('Order', OrderSchema);
