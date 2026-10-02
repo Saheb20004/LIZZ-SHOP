@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import ProductCard from '@/components/product/ProductCard';
@@ -9,11 +9,17 @@ import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
 
 gsap.registerPlugin(ScrollTrigger);
 
-interface Props { products: Product[]; }
-
-export default function NewArrivalsSection({ products }: Props) {
+export default function NewArrivalsSection() {
+  const [products, setProducts] = useState<Product[]>([]);
   const sectionRef = useRef<HTMLDivElement>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    fetch('/api/products')
+      .then((response) => response.ok ? response.json() : [])
+      .then(setProducts)
+      .catch(() => setProducts([]));
+  }, []);
 
   useEffect(() => {
     const ctx = gsap.context(() => {
